@@ -1,0 +1,43 @@
+{
+    "name": "minhyung/monolog-synology",
+    "description": "Monolog handler for Synology",
+    "type": "library",
+    "keywords": ["monolog", "synology", "handler", "logging"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Minhyung Park",
+            "email": "urlinee@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/overworks/monolog-synology/issues",
+        "source": "https://github.com/overworks/monolog-synology"
+    },
+    "require": {
+        "monolog/monolog": "^3.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Minhyung\\Monolog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Minhyung\\Monolog\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
