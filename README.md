@@ -6,7 +6,7 @@ A Monolog handler for sending log messages to Synology Chat via incoming webhook
 
 - Send logs from your PHP application directly to Synology Chat
 - Custom formatter for structured JSON messages
-- Built on top of [Monolog](https://github.com/Seldaek/monolog) and [Guzzle](https://github.com/guzzle/guzzle)
+- Built on top of [Monolog](https://github.com/Seldaek/monolog)
 
 ## Installation
 
@@ -40,22 +40,6 @@ $logger->info('This is a test message sent to Synology Chat!');
 ## Formatter
 
 The handler uses a custom formatter (`SynologyChatFormatter`) that encodes log records as JSON strings for Synology Chat.
-
-## Testing
-
-To run tests:
-
-```bash
-composer install
-vendor/bin/phpunit
-```
-
-To test sending messages, set the `WEBHOOK_URL` environment variable to your Synology Chat webhook URL (URL-encoded):
-
-```bash
-$env:WEBHOOK_URL = [uri]::EscapeDataString('https://your-synology-chat-webhook-url')
-vendor/bin/phpunit
-```
 
 ## License
 
