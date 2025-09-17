@@ -2,8 +2,6 @@
 
 namespace Minhyung\Monolog;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Level;
@@ -46,29 +44,19 @@ class SynologyChatHandler extends AbstractProcessingHandler
 
     protected function sendMessage(string $message): void
     {
-        try {
-            $payload = [
-                'text' => $message,
-            ];
+        $options = [
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-Type: application/x-www-form-urlencoded',
+                'content' => http_build_query(['payload' => Utils::jsonEncode(['text' => $message])]),
+                'timeout' => 5,
+            ],
+        ];
 
-            $client = new Client();
-            $response = $client->post($this->url, [
-                RequestOptions::FORM_PARAMS => [
-                    'payload' => Utils::jsonEncode($payload),
-                ],
-            ]);
-            $responseBody = (string) $response->getBody();
-            $result = json_decode($responseBody, true);
-            if (! ($result['success'] ?? false)) {
-                $error = $result['error'] ?? [];
-                $code = $error['code'] ?? 0;
-                $message = $error['errors'][0] ?? 'Unknown error';
-                throw new \RuntimeException($message, $code);
-            }
-        } catch (\Throwable $e) {
-            if (! $this->ignoreFailure) {
-                throw $e;
-            }
+        $resource = stream_context_create($options);
+
+        if (file_get_contents($this->url, false, $resource) === false && ! $this->ignoreFailure) {
+            throw new \RuntimeException('Failed to send message to Synology Chat');
         }
     }
 }
